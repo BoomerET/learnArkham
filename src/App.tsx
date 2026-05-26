@@ -62,6 +62,7 @@ function App() {
   const [packFilter, setPackFilter] = useState('')
   const [typeFilter, setTypeFilter] = useState('')
   const [encounterFilter, setEncounterFilter] = useState('')
+  const [hideText, setHideText] = useState(false)
 
 
   useEffect(() => {
@@ -228,6 +229,9 @@ function App() {
           <button onClick={pickRandomCard}>
             Study Random Card
           </button>
+          <button onClick={() => setHideText((current) => !current)}>
+            {hideText ? 'Show Card Text' : 'Hide Card Text'}
+          </button>
           {randomCard && (
             <div className="random-card">
               <h2>Study Card</h2>
@@ -289,7 +293,7 @@ function App() {
                     {card.encounter_name || card.encounter_code}
                   </p>
                 )}
-                {card.text && (
+                {!hideText && card.text && (
                   <div className="card-text" dangerouslySetInnerHTML={{ __html: card.text }} />
                 )}
               </div>
