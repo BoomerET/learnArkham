@@ -18,6 +18,7 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [searchText, setSearchText] = useState('')
+  const [randomCard, setRandomCard] = useState<ArkhamCard | null>(null)
 
   useEffect(() => {
     async function loadCards() {
@@ -53,6 +54,18 @@ function App() {
     )
   })
 
+  function pickRandomCard() {
+    if (filteredCards.length === 0) {
+      return
+    }
+
+    const randomIndex = Math.floor(
+      Math.random() * filteredCards.length
+    )
+
+    setRandomCard(filteredCards[randomIndex])
+  }
+
   return (
     <main>
       <h1>Arkham Card Trainer</h1>
@@ -71,7 +84,31 @@ function App() {
             value={searchText}
             onChange={(event) => setSearchText(event.target.value)}
           />
+          <button onClick={pickRandomCard}>
+            Study Random Card
+          </button>
+          {randomCard && (
+            <div className="random-card">
+              <h2>Study Card</h2>
 
+              {randomCard.imagesrc && (
+                <img
+                  src={`https://arkhamdb.com${randomCard.imagesrc}`}
+                  alt={randomCard.name}
+                />
+              )}
+
+              <h3>{randomCard.name}</h3>
+
+              <p>
+                <strong>Type:</strong> {randomCard.type_name}
+              </p>
+
+              <p>
+                <strong>Pack:</strong> {randomCard.pack_name}
+              </p>
+            </div>
+          )}
           <p>Showing {filteredCards.length} matching cards.</p>
 
           <div className="card-grid">
