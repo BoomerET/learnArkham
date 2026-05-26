@@ -130,3 +130,9 @@ button:hover {
   max-height: 90vh;
   object-fit: contain;
 }
+
+.zoom-investigator {
+  width: min(650px, 95vw);
+  max-height: 95vh;
+  object-fit: contain;
+}
