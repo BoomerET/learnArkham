@@ -14,6 +14,7 @@ type ArkhamCard = {
   encounter_name?: string
   real_name?: string
   subname?: string
+  backimagesrc?: string
 }
 
 function App() {
@@ -22,6 +23,9 @@ function App() {
   const [error, setError] = useState<string | null>(null)
   const [searchText, setSearchText] = useState('')
   const [randomCard, setRandomCard] = useState<ArkhamCard | null>(null)
+  const [hoveredCard, setHoveredCard] = useState<ArkhamCard | null>(null)
+  const [shiftHeld, setShiftHeld] = useState(false)
+  const [showBack, setShowBack] = useState(false)
 
   useEffect(() => {
     async function loadCards() {
@@ -44,6 +48,33 @@ function App() {
     }
 
     loadCards()
+  }, [])
+
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Shift') {
+        setShiftHeld(true)
+      }
+
+      if (event.shiftKey && event.key.toLowerCase() === 'f') {
+        setShowBack((current) => !current)
+      }
+    }
+
+    function handleKeyUp(event: KeyboardEvent) {
+      if (event.key === 'Shift') {
+        setShiftHeld(false)
+        setShowBack(false)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('keyup', handleKeyUp)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('keyup', handleKeyUp)
+    }
   }, [])
 
   const filteredCards = cards.filter((card) => {
@@ -126,7 +157,15 @@ function App() {
 
           <div className="card-grid">
             {filteredCards.slice(0, 50).map((card) => (
-              <div className="card" key={card.code}>
+              <div
+                className="card"
+                key={card.code}
+                onMouseEnter={() => setHoveredCard(card)}
+                onMouseLeave={() => {
+                  setHoveredCard(null)
+                  setShowBack(false)
+                }}
+              >
                 {card.imagesrc && (
                   <img
                     src={`https://arkhamdb.com${card.imagesrc}`}
@@ -160,6 +199,21 @@ function App() {
             ))}
           </div>
         </>
+      )}
+      {hoveredCard && shiftHeld && (
+        <div className="zoom-card">
+          <img
+            src={`https://arkhamdb.com${showBack && hoveredCard.backimagesrc
+                ? hoveredCard.backimagesrc
+                : hoveredCard.imagesrc
+              }`}
+            alt={hoveredCard.name}
+          />
+
+          {hoveredCard.backimagesrc && (
+            <p>Hold Shift + press F to flip</p>
+          )}
+        </div>
       )}
     </main>
   )
