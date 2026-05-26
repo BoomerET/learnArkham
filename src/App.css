@@ -103,6 +103,7 @@ button:hover {
   border-radius: 12px;
   padding: 0.75rem;
   box-shadow: 0 0 30px black;
+  pointer-events: none;
 }
 
 .zoom-card img {
