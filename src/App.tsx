@@ -15,6 +15,7 @@ function App() {
   const [cards, setCards] = useState<ArkhamCard[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [searchText, setSearchText] = useState('')
 
   useEffect(() => {
     async function loadCards() {
@@ -39,6 +40,17 @@ function App() {
     loadCards()
   }, [])
 
+  const filteredCards = cards.filter((card) => {
+  const search = searchText.toLowerCase()
+
+  return (
+    card.name.toLowerCase().includes(search) ||
+    card.text?.toLowerCase().includes(search) ||
+    card.type_name?.toLowerCase().includes(search) ||
+    card.pack_name?.toLowerCase().includes(search)
+  )
+})
+
   return (
     <main>
       <h1>Arkham Card Trainer</h1>
@@ -51,8 +63,17 @@ function App() {
         <>
           <p>Loaded {cards.length} cards.</p>
 
-          <ul>
-            {cards.slice(0, 20).map((card) => (
+<input
+  type="search"
+  placeholder="Search by name, text, type, or pack..."
+  value={searchText}
+  onChange={(event) => setSearchText(event.target.value)}
+/>
+
+<p>Showing {filteredCards.length} matching cards.</p>
+
+<ul>
+  {filteredCards.slice(0, 50).map((card) => (
               <li key={card.code}>
                 <strong>{card.name}</strong>
                 {' — '}
