@@ -59,6 +59,10 @@ function App() {
   const [hoveredCard, setHoveredCard] = useState<ArkhamCard | null>(null)
   const [shiftHeld, setShiftHeld] = useState(false)
   const [showBack, setShowBack] = useState(false)
+  const [packFilter, setPackFilter] = useState('')
+  const [typeFilter, setTypeFilter] = useState('')
+  const [encounterFilter, setEncounterFilter] = useState('')
+
 
   useEffect(() => {
     async function loadCards() {
@@ -110,6 +114,18 @@ function App() {
     }
   }, [])
 
+  const packOptions = Array.from(
+    new Set(cards.map((card) => card.pack_name).filter(Boolean))
+  ).sort()
+
+  const typeOptions = Array.from(
+    new Set(cards.map((card) => card.type_name).filter(Boolean))
+  ).sort()
+
+  const encounterOptions = Array.from(
+    new Set(cards.map((card) => card.encounter_name).filter(Boolean))
+  ).sort()
+
   const filteredCards = cards.filter((card) => {
     const search = searchText.toLowerCase()
 
@@ -128,7 +144,18 @@ function App() {
       .join(' ')
       .toLowerCase()
 
-    return searchableText.includes(search)
+    const matchesSearch = searchableText.includes(search)
+    const matchesPack = !packFilter || card.pack_name === packFilter
+    const matchesType = !typeFilter || card.type_name === typeFilter
+    const matchesEncounter =
+      !encounterFilter || card.encounter_name === encounterFilter
+
+    return (
+      matchesSearch &&
+      matchesPack &&
+      matchesType &&
+      matchesEncounter
+    )
   })
 
   function pickRandomCard() {
@@ -154,6 +181,43 @@ function App() {
       {!loading && !error && (
         <>
           <p>Loaded {cards.length} cards.</p>
+          <div className="filters">
+            <select
+              value={packFilter}
+              onChange={(event) => setPackFilter(event.target.value)}
+            >
+              <option value="">All packs</option>
+              {packOptions.map((pack) => (
+                <option key={pack} value={pack}>
+                  {pack}
+                </option>
+              ))}
+            </select>
+
+            <select
+              value={typeFilter}
+              onChange={(event) => setTypeFilter(event.target.value)}
+            >
+              <option value="">All types</option>
+              {typeOptions.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+
+            <select
+              value={encounterFilter}
+              onChange={(event) => setEncounterFilter(event.target.value)}
+            >
+              <option value="">All encounter sets</option>
+              {encounterOptions.map((encounter) => (
+                <option key={encounter} value={encounter}>
+                  {encounter}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <input
             type="search"
