@@ -17,6 +17,17 @@ type ArkhamCard = {
   backimagesrc?: string
 }
 
+function getCardImageUrl(card: ArkhamCard, side: 'front' | 'back' = 'front') {
+  const arkhamDbImage =
+    side === 'back' ? card.backimagesrc : card.imagesrc
+
+  if (arkhamDbImage) {
+    return `https://arkhamdb.com${arkhamDbImage}`
+  }
+
+  return `https://assets.arkham.build/optimized/${card.code}.jpg`
+}
+
 function App() {
   const [cards, setCards] = useState<ArkhamCard[]>([])
   const [loading, setLoading] = useState(true)
@@ -168,7 +179,7 @@ function App() {
               >
                 {card.imagesrc && (
                   <img
-                    src={`https://arkhamdb.com${card.imagesrc}`}
+                    src={getCardImageUrl(card)}
                     alt={card.name}
                   />
                 )}
@@ -203,10 +214,10 @@ function App() {
       {hoveredCard && shiftHeld && (
         <div className="zoom-card">
           <img
-            src={`https://arkhamdb.com${showBack && hoveredCard.backimagesrc
-                ? hoveredCard.backimagesrc
-                : hoveredCard.imagesrc
-              }`}
+            src={getCardImageUrl(
+              hoveredCard,
+              showBack && hoveredCard.backimagesrc ? 'back' : 'front'
+            )}
             alt={hoveredCard.name}
           />
 
