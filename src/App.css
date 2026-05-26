@@ -1,18 +1,67 @@
-main {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem;
+body {
+  margin: 0;
+  background: #111;
+  color: #eee;
   font-family: system-ui, sans-serif;
 }
 
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
 h1 {
-  margin-bottom: 0.5rem;
+  margin-top: 0;
 }
 
 input {
   width: 100%;
-  max-width: 500px;
-  padding: 0.5rem;
+  max-width: 600px;
+  padding: 0.75rem;
   margin: 1rem 0;
   font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+}
+
+.error {
+  color: #ff8080;
+  font-weight: bold;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: #222;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+.card p {
+  margin: 0.4rem 0;
+}
+
+.card-text {
+  margin-top: 1rem;
+  line-height: 1.5;
+}
+
+.card-text p {
+  margin-bottom: 0.75rem;
 }

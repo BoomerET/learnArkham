@@ -41,15 +41,15 @@ function App() {
   }, [])
 
   const filteredCards = cards.filter((card) => {
-  const search = searchText.toLowerCase()
+    const search = searchText.toLowerCase()
 
-  return (
-    card.name.toLowerCase().includes(search) ||
-    card.text?.toLowerCase().includes(search) ||
-    card.type_name?.toLowerCase().includes(search) ||
-    card.pack_name?.toLowerCase().includes(search)
-  )
-})
+    return (
+      card.name.toLowerCase().includes(search) ||
+      card.text?.toLowerCase().includes(search) ||
+      card.type_name?.toLowerCase().includes(search) ||
+      card.pack_name?.toLowerCase().includes(search)
+    )
+  })
 
   return (
     <main>
@@ -63,25 +63,37 @@ function App() {
         <>
           <p>Loaded {cards.length} cards.</p>
 
-<input
-  type="search"
-  placeholder="Search by name, text, type, or pack..."
-  value={searchText}
-  onChange={(event) => setSearchText(event.target.value)}
-/>
+          <input
+            type="search"
+            placeholder="Search by name, text, type, or pack..."
+            value={searchText}
+            onChange={(event) => setSearchText(event.target.value)}
+          />
 
-<p>Showing {filteredCards.length} matching cards.</p>
+          <p>Showing {filteredCards.length} matching cards.</p>
 
-<ul>
-  {filteredCards.slice(0, 50).map((card) => (
-              <li key={card.code}>
-                <strong>{card.name}</strong>
-                {' — '}
-                {card.type_name}
-                {card.pack_name ? ` from ${card.pack_name}` : ''}
-              </li>
+          <div className="card-grid">
+            {filteredCards.slice(0, 50).map((card) => (
+              <div className="card" key={card.code}>
+                {card.imagesrc && (
+                  <img
+                    src={`https://arkhamdb.com${card.imagesrc}`}
+                    alt={card.name}
+                  />
+                )}
+
+                <h2>{card.name}</h2>
+
+                <p><strong>Type:</strong> {card.type_name || 'Unknown'}</p>
+                <p><strong>Faction:</strong> {card.faction_name || 'None'}</p>
+                <p><strong>Pack:</strong> {card.pack_name || 'Unknown'}</p>
+
+                {card.text && (
+                  <div className="card-text" dangerouslySetInnerHTML={{ __html: card.text }} />
+                )}
+              </div>
             ))}
-          </ul>
+          </div>
         </>
       )}
     </main>
