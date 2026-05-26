@@ -18,11 +18,16 @@ type ArkhamCard = {
 }
 
 function getCardImageUrl(card: ArkhamCard, side: 'front' | 'back' = 'front') {
-  const arkhamDbImage =
-    side === 'back' ? card.backimagesrc : card.imagesrc
+  if (side === 'back') {
+    if (card.backimagesrc) {
+      return `https://arkhamdb.com${card.backimagesrc}`
+    }
 
-  if (arkhamDbImage) {
-    return `https://arkhamdb.com${arkhamDbImage}`
+    return `https://assets.arkham.build/optimized/${card.code}b.jpg`
+  }
+
+  if (card.imagesrc) {
+    return `https://arkhamdb.com${card.imagesrc}`
   }
 
   return `https://assets.arkham.build/optimized/${card.code}.jpg`
@@ -216,14 +221,12 @@ function App() {
           <img
             src={getCardImageUrl(
               hoveredCard,
-              showBack && hoveredCard.backimagesrc ? 'back' : 'front'
+              showBack ? 'back' : 'front'
             )}
             alt={hoveredCard.name}
           />
 
-          {hoveredCard.backimagesrc && (
-            <p>Hold Shift + press F to flip</p>
-          )}
+          <p>Hold Shift + press F to flip</p>
         </div>
       )}
     </main>
