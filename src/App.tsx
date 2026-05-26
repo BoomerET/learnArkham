@@ -63,7 +63,7 @@ function App() {
   const [typeFilter, setTypeFilter] = useState('')
   const [encounterFilter, setEncounterFilter] = useState('')
   const [hideText, setHideText] = useState(false)
-
+  const [studyMode, setStudyMode] = useState(false)
 
   useEffect(() => {
     async function loadCards() {
@@ -232,6 +232,9 @@ function App() {
           <button onClick={() => setHideText((current) => !current)}>
             {hideText ? 'Show Card Text' : 'Hide Card Text'}
           </button>
+          <button onClick={() => setStudyMode((current) => !current)}>
+            {studyMode ? 'Exit Study Mode' : 'Enter Study Mode'}
+          </button>
           {randomCard && (
             <div
               className="random-card"
@@ -269,49 +272,51 @@ function App() {
           )}
           <p>Showing {filteredCards.length} matching cards.</p>
 
-          <div className="card-grid">
-            {filteredCards.slice(0, 50).map((card) => (
-              <div
-                className="card"
-                key={card.code}
-                onMouseEnter={() => setHoveredCard(card)}
-                onMouseLeave={() => {
-                  setHoveredCard(null)
-                  setShowBack(false)
-                }}
-              >
-                {card.imagesrc && (
-                  <img
-                    src={getCardImageUrl(card)}
-                    alt={card.name}
-                  />
-                )}
+          {!studyMode && (
+            <div className="card-grid">
+              {filteredCards.slice(0, 50).map((card) => (
+                <div
+                  className="card"
+                  key={card.code}
+                  onMouseEnter={() => setHoveredCard(card)}
+                  onMouseLeave={() => {
+                    setHoveredCard(null)
+                    setShowBack(false)
+                  }}
+                >
+                  {card.imagesrc && (
+                    <img
+                      src={getCardImageUrl(card)}
+                      alt={card.name}
+                    />
+                  )}
 
-                <h2>{card.name}</h2>
+                  <h2>{card.name}</h2>
 
-                <p><strong>Type:</strong> {card.type_name || 'Unknown'}</p>
-                <p><strong>Faction:</strong> {card.faction_name || 'None'}</p>
-                <p><strong>Pack:</strong> {card.pack_name || 'Unknown'}</p>
-                <p>
-                  <strong>Card #:</strong> {card.position || 'Unknown'}
-                </p>
-
-                <p>
-                  <strong>Code:</strong> {card.code}
-                </p>
-
-                {card.encounter_code && (
+                  <p><strong>Type:</strong> {card.type_name || 'Unknown'}</p>
+                  <p><strong>Faction:</strong> {card.faction_name || 'None'}</p>
+                  <p><strong>Pack:</strong> {card.pack_name || 'Unknown'}</p>
                   <p>
-                    <strong>Encounter Set:</strong>{' '}
-                    {card.encounter_name || card.encounter_code}
+                    <strong>Card #:</strong> {card.position || 'Unknown'}
                   </p>
-                )}
-                {!hideText && card.text && (
-                  <div className="card-text" dangerouslySetInnerHTML={{ __html: card.text }} />
-                )}
-              </div>
-            ))}
-          </div>
+
+                  <p>
+                    <strong>Code:</strong> {card.code}
+                  </p>
+
+                  {card.encounter_code && (
+                    <p>
+                      <strong>Encounter Set:</strong>{' '}
+                      {card.encounter_name || card.encounter_code}
+                    </p>
+                  )}
+                  {!hideText && card.text && (
+                    <div className="card-text" dangerouslySetInnerHTML={{ __html: card.text }} />
+                  )}
+                </div>
+              ))}
+            </div>
+            )}
         </>
       )}
       {hoveredCard && shiftHeld && (
