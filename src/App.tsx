@@ -259,6 +259,12 @@ function App() {
               <p>
                 <strong>Pack:</strong> {randomCard.pack_name}
               </p>
+              {!hideText && randomCard.text && (
+                <div
+                  className="card-text"
+                  dangerouslySetInnerHTML={{ __html: randomCard.text }}
+                />
+              )}
             </div>
           )}
           <p>Showing {filteredCards.length} matching cards.</p>
