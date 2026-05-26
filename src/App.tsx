@@ -9,6 +9,8 @@ type ArkhamCard = {
   pack_name?: string
   text?: string
   imagesrc?: string
+  position?: number
+  encounter_code?: string
 }
 
 function App() {
@@ -87,7 +89,19 @@ function App() {
                 <p><strong>Type:</strong> {card.type_name || 'Unknown'}</p>
                 <p><strong>Faction:</strong> {card.faction_name || 'None'}</p>
                 <p><strong>Pack:</strong> {card.pack_name || 'Unknown'}</p>
+                <p>
+                  <strong>Card #:</strong> {card.position || 'Unknown'}
+                </p>
 
+                <p>
+                  <strong>Code:</strong> {card.code}
+                </p>
+
+                {card.encounter_code && (
+                  <p>
+                    <strong>Encounter Set:</strong> {card.encounter_code}
+                  </p>
+                )}
                 {card.text && (
                   <div className="card-text" dangerouslySetInnerHTML={{ __html: card.text }} />
                 )}
