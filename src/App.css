@@ -1,0 +1,11 @@
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: system-ui, sans-serif;
+}
+
+h1 {
+  margin-bottom: 0.5rem;
+}
+
