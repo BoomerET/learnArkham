@@ -120,7 +120,7 @@ button:hover {
 }
 
 .zoom-portrait {
-  width: min(420px, 90vw);
+  width: min(520px, 92vw);
   max-height: 90vh;
   object-fit: contain;
 }
