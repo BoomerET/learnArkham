@@ -233,7 +233,14 @@ function App() {
             {hideText ? 'Show Card Text' : 'Hide Card Text'}
           </button>
           {randomCard && (
-            <div className="random-card">
+            <div
+              className="random-card"
+              onMouseEnter={() => setHoveredCard(randomCard)}
+              onMouseLeave={() => {
+                setHoveredCard(null)
+                setShowBack(false)
+              }}
+            >
               <h2>Study Card</h2>
 
               {randomCard.imagesrc && (
