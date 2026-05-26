@@ -33,6 +33,15 @@ function getCardImageUrl(card: ArkhamCard, side: 'front' | 'back' = 'front') {
   return `https://assets.arkham.build/optimized/${card.code}.jpg`
 }
 
+function isLandscape(card: ArkhamCard) {
+  return (
+    card.type_name === 'Agenda' ||
+    card.type_name === 'Act' ||
+    card.type_name === 'Scenario' ||
+    card.type_name === 'Location'
+  )
+}
+
 function App() {
   const [cards, setCards] = useState<ArkhamCard[]>([])
   const [loading, setLoading] = useState(true)
@@ -219,6 +228,11 @@ function App() {
       {hoveredCard && shiftHeld && (
         <div className="zoom-card">
           <img
+            className={
+              isLandscape(hoveredCard)
+                ? 'zoom-landscape'
+                : 'zoom-portrait'
+            }
             src={getCardImageUrl(
               hoveredCard,
               showBack ? 'back' : 'front'

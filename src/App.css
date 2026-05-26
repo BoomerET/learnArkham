@@ -106,7 +106,7 @@ button:hover {
 }
 
 .zoom-card img {
-  width: min(420px, 90vw);
+  max-width: 90vw;
   max-height: 90vh;
   object-fit: contain;
   border-radius: 8px;
@@ -116,4 +116,16 @@ button:hover {
   margin: 0.5rem 0 0;
   text-align: center;
   color: #ccc;
+}
+
+.zoom-portrait {
+  width: min(420px, 90vw);
+  max-height: 90vh;
+  object-fit: contain;
+}
+
+.zoom-landscape {
+  width: min(900px, 95vw);
+  max-height: 90vh;
+  object-fit: contain;
 }
