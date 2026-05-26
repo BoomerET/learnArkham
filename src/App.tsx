@@ -11,6 +11,9 @@ type ArkhamCard = {
   imagesrc?: string
   position?: number
   encounter_code?: string
+  encounter_name?: string
+  real_name?: string
+  subname?: string
 }
 
 function App() {
@@ -46,12 +49,22 @@ function App() {
   const filteredCards = cards.filter((card) => {
     const search = searchText.toLowerCase()
 
-    return (
-      card.name.toLowerCase().includes(search) ||
-      card.text?.toLowerCase().includes(search) ||
-      card.type_name?.toLowerCase().includes(search) ||
-      card.pack_name?.toLowerCase().includes(search)
-    )
+    const searchableText = [
+      card.name,
+      card.real_name,
+      card.subname,
+      card.text,
+      card.type_name,
+      card.faction_name,
+      card.pack_name,
+      card.encounter_code,
+      card.encounter_name,
+    ]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase()
+
+    return searchableText.includes(search)
   })
 
   function pickRandomCard() {
@@ -136,7 +149,8 @@ function App() {
 
                 {card.encounter_code && (
                   <p>
-                    <strong>Encounter Set:</strong> {card.encounter_code}
+                    <strong>Encounter Set:</strong>{' '}
+                    {card.encounter_name || card.encounter_code}
                   </p>
                 )}
                 {card.text && (
