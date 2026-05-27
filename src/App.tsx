@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import { campaignGroups } from './data/campaign'
 
 type ArkhamCard = {
   code: string
@@ -56,19 +57,6 @@ function getCardPool(card: ArkhamCard) {
   }
 
   return 'player'
-}
-
-const campaignGroups: Record<string, string[]> = {
-  'Brethren of Ash': [
-    'Spreading Flames',
-    'Smoke and Mirrors',
-    'Queen of Ash',
-  ],
-  'Night of the Zealot': [
-    'The Gathering',
-    'The Midnight Mask',
-    'The Devourer Below',
-  ]
 }
 
 function App() {
