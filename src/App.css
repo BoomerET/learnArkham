@@ -150,3 +150,8 @@ select {
   border: none;
   font-size: 1rem;
 }
+
+.keyboard-help {
+  color: #aaa;
+  font-size: 0.9rem;
+}

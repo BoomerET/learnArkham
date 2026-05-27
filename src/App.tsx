@@ -115,6 +115,8 @@ function App() {
     }
   }, [])
 
+
+
   const packOptions = Array.from(
     new Set(cards.map((card) => card.pack_name).filter(Boolean))
   ).sort()
@@ -158,6 +160,35 @@ function App() {
       matchesEncounter
     )
   })
+
+  useEffect(() => {
+    function handleStudyKeys(event: KeyboardEvent) {
+      if (
+        event.target instanceof HTMLInputElement ||
+        event.target instanceof HTMLSelectElement
+      ) {
+        return
+      }
+
+      if (event.key.toLowerCase() === 'r') {
+        pickRandomCard()
+      }
+
+      if (event.key.toLowerCase() === 't') {
+        setHideText((current) => !current)
+      }
+
+      if (event.key.toLowerCase() === 's') {
+        setStudyMode((current) => !current)
+      }
+    }
+
+    window.addEventListener('keydown', handleStudyKeys)
+
+    return () => {
+      window.removeEventListener('keydown', handleStudyKeys)
+    }
+  }, [filteredCards])
 
   function pickRandomCard() {
     if (filteredCards.length === 0) {
@@ -235,6 +266,9 @@ function App() {
           <button onClick={() => setStudyMode((current) => !current)}>
             {studyMode ? 'Exit Study Mode' : 'Enter Study Mode'}
           </button>
+          <p className="keyboard-help">
+            Keyboard: R = random, T = hide/show text, S = study mode, Shift = zoom, Shift+F = flip
+          </p>
           {randomCard && (
             <div
               className="random-card"
