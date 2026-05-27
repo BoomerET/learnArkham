@@ -179,6 +179,16 @@ function App() {
     )
   }
 
+  function clearFilters() {
+    setSearchText('')
+    setPackFilter('')
+    setTypeFilter('')
+    setEncounterFilter('')
+    setCardPoolFilter('')
+    setShowFavoritesOnly(false)
+    setRandomCard(null)
+  }
+
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === 'Shift') {
@@ -318,6 +328,10 @@ function App() {
               {showFavoritesOnly
                 ? 'Show All Matching Cards'
                 : 'Show Need to Study'}
+            </button>
+
+            <button onClick={clearFilters}>
+              Clear Filters
             </button>
           </div>
 
