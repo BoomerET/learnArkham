@@ -227,7 +227,7 @@ function App() {
             onChange={(event) => setSearchText(event.target.value)}
           />
           <button onClick={pickRandomCard}>
-            Study Random Card
+            {randomCard ? 'Next Random Card' : 'Study Random Card'}
           </button>
           <button onClick={() => setHideText((current) => !current)}>
             {hideText ? 'Show Card Text' : 'Hide Card Text'}
@@ -316,7 +316,7 @@ function App() {
                 </div>
               ))}
             </div>
-            )}
+          )}
         </>
       )}
       {hoveredCard && shiftHeld && (
