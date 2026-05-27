@@ -64,6 +64,11 @@ const campaignGroups: Record<string, string[]> = {
     'Smoke and Mirrors',
     'Queen of Ash',
   ],
+  'Night of the Zealot': [
+    'The Gathering',
+    'The Midnight Mask',
+    'The Devourer Below',
+  ]
 }
 
 function App() {
