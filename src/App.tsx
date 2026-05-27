@@ -58,6 +58,14 @@ function getCardPool(card: ArkhamCard) {
   return 'player'
 }
 
+const campaignGroups: Record<string, string[]> = {
+  'Brethren of Ash': [
+    'Spreading Flames',
+    'Smoke and Mirrors',
+    'Queen of Ash',
+  ],
+}
+
 function App() {
   const [cards, setCards] = useState<ArkhamCard[]>([])
   const [loading, setLoading] = useState(true)
@@ -83,6 +91,8 @@ function App() {
   })
 
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false)
+
+  const [campaignFilter, setCampaignFilter] = useState('')
 
   useEffect(() => {
     async function loadCards() {
@@ -150,6 +160,14 @@ function App() {
       !cardPoolFilter || getCardPool(card) === cardPoolFilter
     const matchesFavorites =
       !showFavoritesOnly || favoriteCodes.includes(card.code)
+    const campaignScenarioNames = campaignFilter
+      ? campaignGroups[campaignFilter] || []
+      : []
+
+    const matchesCampaign =
+      !campaignFilter ||
+      campaignScenarioNames.includes(card.encounter_name || '') ||
+      campaignScenarioNames.includes(card.pack_name || '')
 
     return (
       matchesSearch &&
@@ -157,7 +175,8 @@ function App() {
       matchesType &&
       matchesEncounter &&
       matchesCardPool &&
-      matchesFavorites
+      matchesFavorites &&
+      matchesCampaign
     )
   })
 
@@ -187,6 +206,7 @@ function App() {
     setCardPoolFilter('')
     setShowFavoritesOnly(false)
     setRandomCard(null)
+    setCampaignFilter('')
   }
 
   useEffect(() => {
@@ -299,6 +319,17 @@ function App() {
               {encounterOptions.map((encounter) => (
                 <option key={encounter} value={encounter}>
                   {encounter}
+                </option>
+              ))}
+            </select>
+            <select
+              value={campaignFilter}
+              onChange={(event) => setCampaignFilter(event.target.value)}
+            >
+              <option value="">All campaigns</option>
+              {Object.keys(campaignGroups).map((campaign) => (
+                <option key={campaign} value={campaign}>
+                  {campaign}
                 </option>
               ))}
             </select>
